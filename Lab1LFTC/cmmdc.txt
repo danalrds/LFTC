@@ -1,0 +1,17 @@
+char ch='a';
+int a,b;
+read(a);
+read(b);
+int r=a%b;
+if (a<b){
+    int aux=a;
+    a=b;
+    b=aux;
+}
+r=1;
+looping (r>0){
+    r=a%b;
+    a=b;
+    b=r;
+}
+write(a);
