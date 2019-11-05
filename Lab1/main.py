@@ -1,4 +1,5 @@
 from BinaryTree import BST
+import re
 
 
 def loadCodificationTable():
@@ -69,8 +70,8 @@ def solve():
         while i < length and text[i] in separators:
             current = text[i]
             if text[i] == "'":
-                assert(text[i + 2] == "'")
-                position = bstConstants.addElem("'"+text[i + 1]+"'")
+                assert (text[i + 2] == "'")
+                position = bstConstants.addElem("'" + text[i + 1] + "'")
                 pif.append((2, position))
                 i += 2
             elif current not in ignorable:
@@ -87,15 +88,12 @@ def solve():
 
 
 def validIdentifier(word):
-    return word[0] in "abcdefghijklmnopqrstuvwxyz"
+    return word[0] in "abcdefghijklmnopqrstuvwxyz" and len(word) <= 250
 
 
 def validNumber(word):
-    try:
-        int(word)
-        return True
-    except ValueError:
-        return False
+    # RE_INT = re.compile(r'^[-+]?([1-9]\d*|0)$')
+    return re.match("^[-+]?([1-9]\d*|0)$", word)
 
 
 pif, ist, cst = solve()

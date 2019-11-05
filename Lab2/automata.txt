@@ -1,0 +1,1 @@
+{S,T} {b,a,c} {delta(S,b)=T;delta(S,a)=S} S {T,S}
