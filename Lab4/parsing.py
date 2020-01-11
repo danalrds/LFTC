@@ -29,12 +29,14 @@ class Parser:
         self.tree_root = Node(self.initial_state)
 
     def canonical_collection(self):
-        self.productions.insert(0, Production('S\'', self.initial_state))
+        self.productions.insert(0, Production('S\'', [self.initial_state]))
         symbols = self.non_terminals + self.terminals
-        self.map[0] = closure(self.productions, Item('S\'', self.initial_state, 0))
+        self.map[0] = closure(self.productions, Item('S\'', [self.initial_state], 0))
         index = 0
         while index <= self.nrStates:
             state = self.map[index]
+            print('INDEX', index)
+            print('STATE', state)
             for symbol in symbols:
                 result = goto(index, symbol, self.map, self.productions)
                 if len(result) > 0:
@@ -52,6 +54,7 @@ class Parser:
         # for x in map.keys():
         #    print(x)
         #    printClosure(self.map[x])
+        print('PARSE TABLE:')
         for x in self.parse_table.keys():
             print(x, self.parse_table[x])
 
@@ -69,10 +72,12 @@ class Parser:
                         self.actions[index] = 'Accept'
                     else:
                         self.actions[index] = found_index
-        print('Actions:', self.actions)
+        print('ACTIONS:')
+        for key in self.actions:
+            print(str(key) + ' :  ' + str(self.actions[key]))
 
     def parse(self, sequence):
-        work_stack, input_stack = [0], [x for x in sequence]
+        work_stack, input_stack = [0], sequence
         accept = False
         while not accept:
             print('Work stack')
@@ -81,6 +86,7 @@ class Parser:
             if self.actions[top] == 'Shift':
                 # check for empty stack
                 char = input_stack.pop(0)
+                print('top WS', top,'symbol',  char)
                 if (top, char) not in self.parse_table:
                     raise Exception('State not in can coll')
                 result = self.parse_table[(top, char)]

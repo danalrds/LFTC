@@ -27,18 +27,27 @@ def doIt(productions):
     printClosure(map[6])
 
 
-p0 = Production('S\'', 'S')
-p1 = Production('S', 'aA')
-p2 = Production('A', 'bA')
-p3 = Production('A', 'c')
+p0 = Production('S\'', ['InitialState'])
+p1 = Production('InitialState', ['albastru', 'AState'])
+p2 = Production('AState', ['bordeaux', 'AState'])
+p3 = Production('AState', ['ciocolatiu'])
 productions = [p1, p2, p3]
+non_terminals = ['InitialState', 'AState']
+terminals = ['albastru', 'bordeaux', 'ciocolatiu']
 
-non_terminals = ['S', 'A']
-terminals = ['a', 'b', 'c']
-g = Parser(non_terminals, terminals, productions, 'S')
+##############################################
+# closure(productions, Item('S\'', ['InitialState'], 0))
+# closure(productions, Item('S\'', ['InitialState'], 1))
+# closure(productions, Item('InitialState\'', ['albastru', 'AState'], 1))
+# closure(productions, Item('InitialState\'', ['albastru', 'AState'], 2))
+# closure(productions, Item('AState\'', ['bordeaux', 'AState'], 1))
+# closure(productions, Item('AState\'', ['bordeaux', 'AState'], 1))
+# closure(productions, Item('AState\'', ['ciocolatiu'], 1))
+# closure(productions, Item('AState\'', ['bordeaux', 'AState'], 2))
+g = Parser(non_terminals, terminals, productions, 'InitialState')
 g.canonical_collection()
 g.build_actions()
-g.parse('abbc')
+g.parse(['albastru', 'bordeaux', 'bordeaux', 'ciocolatiu'])
 g.build_parse_tree()
 print('Parse tree:')
 g.tree_root.bfs()

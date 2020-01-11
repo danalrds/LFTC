@@ -4,7 +4,10 @@ class Production:
         self.rhs = rhs
 
     def __str__(self):
-        return self.lhs + ' -> ' + self.rhs
+        to_string = self.lhs + '->'
+        for x in self.rhs:
+            to_string += x + ' '
+        return to_string
 
     def __eq__(self, other):
         return self.lhs == other.lhs and self.rhs == other.rhs
@@ -19,7 +22,14 @@ class Item(Production):
         self.dot = dot
 
     def __str__(self):
-        return self.lhs + ' -> ' + self.rhs[0:self.dot] + '.' + self.rhs[self.dot:]
+        to_string = self.lhs + '->'
+        for i in range(len(self.rhs)):
+            if i == self.dot:
+                to_string += '.'
+            to_string += self.rhs[i] + ' '
+        if len(self.rhs) == self.dot:
+            to_string += '.'
+        return to_string
 
     def __eq__(self, other):
         return self.lhs == other.lhs and self.rhs == other.rhs and self.dot == other.dot

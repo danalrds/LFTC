@@ -1,0 +1,27 @@
+NONTERMINALS
+program
+cmpdstmt
+stmtlist
+stmt
+simplstmt
+structstmt
+declarationstmt
+assignstmt
+iostmt
+read
+write
+simpleDecl
+arraydecl
+type
+expression
+term
+factor
+ifstmt
+loopingstmt
+condition
+expression
+TERMINALS
+34
+INITIAL STATE
+program
+
