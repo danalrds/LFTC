@@ -86,7 +86,7 @@ class Parser:
             if self.actions[top] == 'Shift':
                 # check for empty stack
                 char = input_stack.pop(0)
-                print('top WS', top,'symbol',  char)
+                print('top WS', top, 'symbol', char)
                 if (top, char) not in self.parse_table:
                     raise Exception('State not in can coll')
                 result = self.parse_table[(top, char)]

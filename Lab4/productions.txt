@@ -1,0 +1,39 @@
+program->31 cmpdstmt 32
+cmpdstmt->31 stmtlist 32
+stmtlist->stmt
+stmtlist->stmt 14 stmtlist
+stmt->simplstmt
+stmt->structstmt
+simplstmt->declarationstmt
+simplstmt->assignstmt
+simplstmt->iostmt
+declarationstmt->simpleDecl
+declarationstmt->arraydecl
+simpleDecl->type 0
+type->2
+type->3
+arraydecl->type 22 1 23
+assignstmt->0 27 expression
+expression->expression 16 term
+expression->term
+term->term 18 factor
+term->factor
+factor->19 expression 20
+factor->0
+iostmt -> 5
+iostmt->6 19 0 20
+structstmt ->cmpdstmt
+structstmt->ifstmt
+structstmt->loopingstmt
+ifstmt->condition 31 stmtlist 32
+condition->19 expression relation expression 20
+relation->23
+relation->24
+relation->25
+relation->26
+relation->27
+relation->28
+loopingstmt->7 condition 31 stmtlist 32
+END
+loopingstmt->7 19  assignstmt 14 condtition 14 stmt 20
+loopingstmt-> 7 19 type 0 13 0 20

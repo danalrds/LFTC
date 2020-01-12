@@ -21,9 +21,9 @@ def closure(productions, element):
     return closure
 
 
-def goto(state, elem, map, productions):
-    print('goto(' + str(state) + ',' + str(elem) + ')')
-    res = map[state]
+def goto(index, elem, map, productions):
+    print('goto(' + str(index) + ',' + str(elem) + ')')
+    res = map[index]
     for item in res:
         rhs = item.rhs[item.dot:]
         if elem in rhs and rhs.index(elem) == 0:

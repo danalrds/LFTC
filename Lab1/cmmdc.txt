@@ -1,4 +1,6 @@
+program{
 char ch='a';
+}
 int a,b;
 read(a);
 read(b);
@@ -15,3 +17,4 @@ looping (r>0){
     b=r;
 }
 write(a);
+}

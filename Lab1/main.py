@@ -14,7 +14,7 @@ def loadCodificationTable():
             map[x] = i
             if i > 2:
                 reservedWords.append(x)
-            if i > 10:
+            if i > 11:
                 separators.append(x)
             i += 1
             line = f.readline()
