@@ -1,9 +1,9 @@
 NONTERMINALS
-program
+S
 cmpdstmt
 stmtlist
 stmt
-simplstmt
+simplestmt
 structstmt
 declarationstmt
 assignstmt
@@ -21,7 +21,6 @@ loopingstmt
 condition
 expression
 TERMINALS
-34
+28
 INITIAL STATE
-program
-
+S

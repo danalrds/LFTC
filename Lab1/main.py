@@ -6,6 +6,7 @@ def loadCodificationTable():
     map = {}
     reservedWords = []
     separators = [" ", "\n"]
+    operands = []
     with open("codification.txt", "r")as f:
         line = f.readline()
         i = 1
@@ -14,16 +15,29 @@ def loadCodificationTable():
             map[x] = i
             if i > 2:
                 reservedWords.append(x)
-            if i > 11:
-                separators.append(x)
             i += 1
             line = f.readline()
-    return map, reservedWords, separators
+    with open("operands.txt", "r")as f:
+        line = f.readline()
+        while line != "":
+            x = line.strip()
+            map[x] = i
+            operands.append(x)
+            i += 1
+            line = f.readline()
+    with open("separators.txt", "r")as f:
+        line = f.readline()
+        while line != "":
+            x = line.strip()
+            separators.append(x)
+            i += 1
+            line = f.readline()
+    return map, reservedWords, separators, operands
 
 
 def loadProgramText():
     text = ""
-    with open("cmmdc.txt", "r")as f:
+    with open("text1.txt", "r")as f:
         line = f.readline()
         while line != "":
             text = text + line
@@ -41,7 +55,7 @@ def printBST(node):
 
 
 def solve():
-    map, reserved, separators = loadCodificationTable()
+    map, reserved, separators, operands = loadCodificationTable()
     text = loadProgramText()
     ignorable = [" ", "\n"]
     pif = []
@@ -54,7 +68,6 @@ def solve():
         while text[i] not in separators:
             word += text[i]
             i += 1
-
         if word in reserved:
             code = map[word]
             pif.append((code, -1))
@@ -66,25 +79,44 @@ def solve():
             pif.append((2, position))
         else:
             raise Exception("Invalid token!")
-
+        sep = ""
         while i < length and text[i] in separators:
-            current = text[i]
             if text[i] == "'":
+                if sep != '':
+                    pif.append((map[sep], -1))
+                    sep = ""
                 assert (text[i + 2] == "'")
                 position = bstConstants.addElem("'" + text[i + 1] + "'")
                 pif.append((2, position))
+                print('then branch', position, text[i + 1])
                 i += 2
-            elif current not in ignorable:
-                code = map[current]
-                pif.append((code, -1))
+            else:
+                if text[i] not in ignorable:
+                    if possibleSeparator(sep + text[i], operands):
+                        sep += text[i]
+                    else:
+                        if sep != '':
+                            code = map[sep]
+                            pif.append((code, -1))
+                        sep = text[i]
             i += 1
+        if sep in operands:
+            pif.append((map[sep], -1))
+    print('IDENTIFIERS:')
     printBST(bstIdentifiers.getRoot())
-    print("*" * 10)
+    print('CONSTANTS')
     printBST(bstConstants.getRoot())
-    print("*" * 10)
+    print('PIF')
     for x in pif:
-        print(x)
+        print(x[0])
     return pif, bstIdentifiers, bstConstants
+
+
+def possibleSeparator(prefix, operands):
+    for op in operands:
+        if op.find(prefix) == 0:
+            return True
+    return False
 
 
 def validIdentifier(word):
@@ -97,3 +129,8 @@ def validNumber(word):
 
 
 pif, ist, cst = solve()
+# map, reserved, separators, operands = loadCodificationTable()
+# print(operands)
+# print(reserved)
+# print(separators)
+# print(map)

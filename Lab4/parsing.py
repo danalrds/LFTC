@@ -45,9 +45,14 @@ class Parser:
                         self.nrStates += 1
                         # check nothing else here before
                         self.map[self.nrStates] = result
+                        if (index, symbol) in self.parse_table:
+                            raise Exception('error in parse table')
                         self.parse_table[(index, symbol)] = self.nrStates
                     else:
                         # check nothing else here before
+                        if (index, symbol) in self.parse_table:
+                            print(index, symbol)
+                            raise Exception('error in parse table')
                         self.parse_table[(index, symbol)] = foundKey
             index += 1
         self.nrStates += 1
@@ -61,12 +66,13 @@ class Parser:
     def build_actions(self):
         for x in self.parse_table.keys():
             # check only Shift can be there before
+            if x[0] in self.actions and self.actions[x[0]] != 'Shift':
+                raise Exception('XDDD')
             self.actions[x[0]] = 'Shift'
         for index in range(self.nrStates):
             if index not in self.actions:
                 state = self.map[index][0]
                 if state.get_production() in self.productions:
-                    # check nothing else here
                     found_index = self.productions.index(state.get_production())
                     if found_index == 0:
                         self.actions[index] = 'Accept'
@@ -76,12 +82,14 @@ class Parser:
         for key in self.actions:
             print(str(key) + ' :  ' + str(self.actions[key]))
 
-    def parse(self, sequence):
+    def parse(self, sequence, parse_table):
         work_stack, input_stack = [0], sequence
         accept = False
         while not accept:
             print('Work stack')
             print(work_stack)
+            print('Input stack')
+            print(input_stack)
             top = work_stack[0]
             if self.actions[top] == 'Shift':
                 # check for empty stack
@@ -96,13 +104,14 @@ class Parser:
                 if len(input_stack) == 0:
                     accept = True
                 else:
+                    print(input_stack)
                     raise Exception('Still things on input stack')
             else:
                 reduce_action = self.actions[top]
                 lhs = self.productions[reduce_action].lhs
                 rhs = self.productions[reduce_action].rhs
                 if len(work_stack) < 2 * len(rhs):
-                    raise Exception('Not enough things on the stack!')
+                    raise Exception('Not enough things on the WORK stack!')
                 # check if pop sequence is right
                 right_work_stack = work_stack[:2 * len(rhs)]
                 work_stack = work_stack[2 * len(rhs):]

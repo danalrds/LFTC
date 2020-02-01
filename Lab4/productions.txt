@@ -1,39 +1,34 @@
-program->31 cmpdstmt 32
-cmpdstmt->31 stmtlist 32
-stmtlist->stmt
-stmtlist->stmt 14 stmtlist
-stmt->simplstmt
+S->3 27 stmtlist 28
+stmtlist->stmt 13
+stmtlist->stmtlist stmt 13
+stmt->declarationstmt
+stmt->assignstmt
+stmt->iostmt
+declarationstmt->4 1
+declarationstmt->5 1
+assignstmt->1 23 expression
+expression->1 14 expression
+expression->1 15 expression
+expression->1 16 expression
+expression->1 17 expression
+expression->1 18 expression
+expression->2 14 expression
+expression->2 15 expression
+expression->2 16 expression
+expression->2 17 expression
+expression->2 18 expression
+iostmt->6 25 1 26
+iostmt->7 25 1 26
 stmt->structstmt
-simplstmt->declarationstmt
-simplstmt->assignstmt
-simplstmt->iostmt
-declarationstmt->simpleDecl
-declarationstmt->arraydecl
-simpleDecl->type 0
-type->2
-type->3
-arraydecl->type 22 1 23
-assignstmt->0 27 expression
-expression->expression 16 term
-expression->term
-term->term 18 factor
-term->factor
-factor->19 expression 20
-factor->0
-iostmt -> 5
-iostmt->6 19 0 20
-structstmt ->cmpdstmt
 structstmt->ifstmt
 structstmt->loopingstmt
-ifstmt->condition 31 stmtlist 32
-condition->19 expression relation expression 20
+ifstmt->condition 27 stmtlist 28
+condition->25 expression relation expression 26
+relation->19
+relation->20
+relation->21
+relation->22
 relation->23
 relation->24
-relation->25
-relation->26
-relation->27
-relation->28
-loopingstmt->7 condition 31 stmtlist 32
+loopingstmt ->7 condition 27 stmtlist 28
 END
-loopingstmt->7 19  assignstmt 14 condtition 14 stmt 20
-loopingstmt-> 7 19 type 0 13 0 20

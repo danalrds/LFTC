@@ -47,7 +47,7 @@ terminals = ['albastru', 'bordeaux', 'ciocolatiu']
 g = Parser(non_terminals, terminals, productions, 'InitialState')
 g.canonical_collection()
 g.build_actions()
-g.parse(['albastru', 'bordeaux', 'bordeaux', 'ciocolatiu'])
+g.parse(['albastru', 'bordeaux', 'bordeaux', 'ciocolatiu'], g.parse_table)
 g.build_parse_tree()
 print('Parse tree:')
 g.tree_root.bfs()
